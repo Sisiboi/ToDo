@@ -31,7 +31,7 @@ class User{
             }
 
             $this->username = $username;
-
+            
             return $this;
     }
 
@@ -122,38 +122,36 @@ class User{
     public function setPassword($password)
     {
             $this->password = $password;
-
+            
             return $this;
     }
 
 
 
 
-    public function register()
-    {
-        $options = [
-                    'cost' => 12, //2^14
-            ];
-        $password = password_hash($this->password, PASSWORD_DEFAULT, $options);
-
-        try {
-            //$conn = new PDO("mysql:host=localhost;dbname=netflix","root","root",null); indien hij een 4e vraagt
-            $conn = Db::getInstance();
-            $statement = $conn->prepare('INSERT into users(first_name,last_name,email,password) VALUES (:first_name, :last_name ,:email,:password)');
-        
-            $statement->bindParam(':first_name', $this->firstname);
-            $statement->bindParam(':last_name', $this->lastname);
-            $statement->bindParam(':email', $this->email);
-            $statement->bindParam(':password', $password);
-            print_r($statement);
-            $result = $statement->execute();
+    public function register(){
+        //connectie 
+        $conn = Db::getInstance();
+    
+        //$conn = new PDO("mysql:host=localhost;dbname=focal","root", "");
+       
+      
+     
+            $statement = $conn->prepare("insert into users (username, first_name, last_name, email, password) values (:username, :firstName, :lastName, :email, :password)");
+          
            
+           
+            $statement->bindParam(":username", $this->username);
+            $statement->bindParam(":firstName", $this->firstName);
+            $statement->bindParam(":lastName", $this->lastName);
+            $statement->bindParam(":email", $this->email);
+            $statement->bindParam(":password", $this->password);
+            // execute
+            $result = $statement->execute();
             
-        } catch (Throwable $t) {
-            return false;
-            echo 'het is niet gelukt';
-        }
-    }
+            return $result;
+       }            
+    
 
 
 

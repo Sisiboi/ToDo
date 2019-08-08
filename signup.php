@@ -14,6 +14,10 @@ if (!empty($_POST)) {
           $user->setEmail($_POST['email']);
           $user->setPassword($_POST['password']);
           $user->register();
+          
+          
+         
+
    
     
   
