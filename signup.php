@@ -1,31 +1,33 @@
 <?php
 
+include_once('library/helpers/Security.class.php');
 include_once('library/classes/User.class.php');
 
 if (!empty($_POST)) {
 
-
-     
-     
-          $user = new User();
-          $user->setUsername($_POST['username']);
-          $user->setFirstName($_POST['first_name']);
-          $user->setLastName($_POST['last_name']);
-          $user->setEmail($_POST['email']);
-          $user->setPassword($_POST['password']);
-          $user->register();
-          
-          
-         
-
-   
+    try {
+        $security = new Security();
+        $security->password = $_POST['password'];
+        $security->passwordRepeat = $_POST['password_repeat'];
+       
+        
+        if ($security->passwordsCheck()) {
+            $user = new User();
+            $user->setUsername($_POST['username']);
+            $user->setFirstName($_POST['first_name']);
+            $user->setLastName($_POST['last_name']);
+            $user->setEmail($_POST['email']);
+            $user->setPassword($_POST['password']);
+             $user->register();
+               
+            
+        }
+    }
+    catch (Exception $e){
+                  
+    }
     
-  
-  
-  
 } 
-
-
 
 
 ?><!DOCTYPE html>
@@ -71,6 +73,11 @@ if (!empty($_POST)) {
     <div class="form-group">
       <label for="password">Password</label>
       <input type="password" id="password" name="password" placeholder="Password" class="form-control">
+    </div>
+    
+    <div class="form-group">
+      <label for="password_repeat">Password repeat</label>
+      <input type="password_repeat" id="password_repeat" name="password_repeat" placeholder="Password Repeat" class="form-control">
     </div>
     
     

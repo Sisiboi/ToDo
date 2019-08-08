@@ -132,24 +132,32 @@ class User{
     public function register(){
         //connectie 
         $conn = Db::getInstance();
-    
         //$conn = new PDO("mysql:host=localhost;dbname=focal","root", "");
+        $mailCheck = $conn->prepare('select email from users where email = :email');
+        $mailCheck->bindParam(":email", $this->email);
+        $mailCheck->execute();
+        if( $mailCheck->rowCount() > 0 ) { // check if email is already found or not.
+            throw new Exception ("That email address is already in use");
+       }
        
       
      
-            $statement = $conn->prepare("insert into users (username, first_name, last_name, email, password) values (:username, :firstName, :lastName, :email, :password)");
-          
-           
-           
-            $statement->bindParam(":username", $this->username);
-            $statement->bindParam(":firstName", $this->firstName);
-            $statement->bindParam(":lastName", $this->lastName);
-            $statement->bindParam(":email", $this->email);
-            $statement->bindParam(":password", $this->password);
-            // execute
-            $result = $statement->execute();
-            
-            return $result;
+       else {
+        $statement = $conn->prepare("insert into users (username, first_name, last_name, email, password) values (:username, :firstName, :lastName, :email, :password)");
+        $options = [
+            'cost' => 12,
+        ];
+        $hash = password_hash($this->password, PASSWORD_DEFAULT, $options);
+        $statement->bindParam(":username", $this->username);
+        $statement->bindParam(":firstName", $this->firstName);
+        $statement->bindParam(":lastName", $this->lastName);
+        $statement->bindParam(":email", $this->email);
+        $statement->bindParam(":password", $hash);
+        // execute
+        $result = $statement->execute();
+       
+        return $result;
+   }     
        }            
     
 
