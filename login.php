@@ -1,4 +1,21 @@
-<!DOCTYPE html>
+<?php 
+
+include_once('library/classes/User.class.php');
+if (!empty($_POST)) {
+    try{
+        $user = new User();
+        $user->setEmail($_POST['email']);
+        $user->setPassword($_POST['password']);
+        if ($user->loginCheck()) {
+          header('Location: index.php');
+        }
+    }
+    catch(Exception $e) {
+
+    }
+}
+
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,10 +45,7 @@
       <label for="exampleInputPassword1">Password</label>
       <input type="password" id="password" name="password" placeholder="Password" class="form-control">
     </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Password repeat</label>
-      <input type="password" id="password_repeat" name="password_repeat" placeholder="Password repeat" class="form-control">
-    </div>
+  
     
     
     <small id="emailHelp" class="form-text text-muted">Don't have an account yet?  <strong>

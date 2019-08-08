@@ -77,13 +77,13 @@ if (!empty($_POST)) {
     
     <div class="form-group">
       <label for="password_repeat">Password repeat</label>
-      <input type="password_repeat" id="password_repeat" name="password_repeat" placeholder="Password Repeat" class="form-control">
+      <input type="password" id="password_repeat" name="password_repeat" placeholder="Password Repeat" class="form-control">
     </div>
     
     
     
     <small id="emailHelp" class="form-text text-muted">Already have an account?  <strong>
-        <a href="signup.php"> Login here!</a></strong></small>
+        <a href="login.php"> Login here!</a></strong></small>
   
     <input type="submit" value="Sign up" class="btn btn-primary">
   

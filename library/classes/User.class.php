@@ -158,7 +158,28 @@ class User{
        
         return $result;
    }     
-       }            
+       }          
+       
+       
+      
+
+    public function loginCheck () {
+            $conn = Db::getInstance();
+            $query = "select password from users where email = :email";
+            $statement = $conn->prepare($query);
+            $statement->bindParam(":email", $this->email);
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            if(password_verify ( $this->password , $result["password"] )){
+                            return true;
+                          
+                            
+                    }
+                    else {
+                            throw new Exception ("Email and password do not match");
+                           
+                    }
+        }
     
 
 
