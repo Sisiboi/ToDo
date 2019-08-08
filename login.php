@@ -34,7 +34,8 @@
     </div>
     
     
-    <small id="emailHelp" class="form-text text-muted">We'll never share your info with anyone else.</small>
+    <small id="emailHelp" class="form-text text-muted">Don't have an account yet?  <strong>
+        <a href="signup.php"> Register here!</a></strong></small>
     <button type="submit" class="btn btn-primary">Submit</button>
   </fieldset>
 </form>

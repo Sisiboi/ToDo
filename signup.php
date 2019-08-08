@@ -1,4 +1,30 @@
-<!DOCTYPE html>
+<?php
+
+include_once('library/classes/User.class.php');
+
+if (!empty($_POST)) {
+
+
+     
+     
+          $user = new User();
+          $user->setUsername($_POST['username']);
+          $user->setFirstName($_POST['first_name']);
+          $user->setLastName($_POST['last_name']);
+          $user->setEmail($_POST['email']);
+          $user->setPassword($_POST['password']);
+          $user->register();
+   
+    
+  
+  
+  
+} 
+
+
+
+
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,42 +41,41 @@
     <div class="row">
         <div class="col-md-12">
           
-        <form>
-  <fieldset>
+        <form action="" method="post" >
+ 
   
   <div class="form-group ">
-      <label for="exampleInputEmail1">Username</label>
-      <input type="text" id="username" name="username" placeholder="Username" class="form-control">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Username" class="form-control" >
      
     </div>
     <div class="form-group ">
-      <label for="exampleInputEmail1">First name</label>
+      <label for="first_name">First name</label>
       <input type="text" id="first_name" name="first_name" placeholder="First name" class="form-control">
      
     </div>
     <div class="form-group ">
-      <label for="exampleInputEmail1">Last name</label>
+      <label for="last_name">Last name</label>
       <input type="text" id="last_name" name="last_name" placeholder="Last name" class="form-control">
      
     </div>
     <div class="form-group ">
-      <label for="exampleInputEmail1">Email address</label>
+      <label for="email">Email address</label>
       <input type="email" id="email" name="email" placeholder="Email" class="form-control">
      
     </div>
     <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
+      <label for="password">Password</label>
       <input type="password" id="password" name="password" placeholder="Password" class="form-control">
     </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Password repeat</label>
-      <input type="password" id="password_repeat" name="password_repeat" placeholder="Password repeat" class="form-control">
-    </div>
     
     
-    <small id="emailHelp" class="form-text text-muted">We'll never share your info with anyone else.</small>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </fieldset>
+    
+    <small id="emailHelp" class="form-text text-muted">Already have an account?  <strong>
+        <a href="signup.php"> Login here!</a></strong></small>
+  
+    <input type="submit" value="Sign up" class="btn btn-primary">
+  
 </form>
         
         </div>
