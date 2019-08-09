@@ -163,6 +163,32 @@ class User{
        
       
 
+       public function login(){
+        $conn = Db::getInstance();
+        $statement = $conn->prepare('select id from users where email = :email && deleted=0');
+        $statement->bindParam(":email", $this->email);
+        $statement->execute();
+        $currentUserID = $statement->fetch(PDO::FETCH_ASSOC);
+        if( !empty($currentUserID) ){
+        session_start();
+        $_SESSION['email'] = $this->email;
+        $_SESSION['user_id'] = $currentUserID['id'];
+        
+        $options = [
+            'cost' => 12,
+        ];
+        $hash = password_hash($this->email, PASSWORD_DEFAULT, $options);
+        setcookie("user", $hash,time()+2592000);
+        $cookieDb = $conn->prepare("insert into cookies (cookie, user_id) values (:cookie, :userId)");
+        $cookieDb->bindValue(':cookie', $hash);
+        $cookieDb->bindValue(':userId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $cookieDb->execute();
+        header('Location: index.php');
+        } else {
+            throw new Exception ("Your account has been deactivated");
+        } 
+    }
+
     public function loginCheck () {
             $conn = Db::getInstance();
             $query = "select password from users where email = :email";
@@ -172,15 +198,11 @@ class User{
             $result = $statement->fetch(PDO::FETCH_ASSOC);
             if(password_verify ( $this->password , $result["password"] )){
                             return true;
-                          
-                            
                     }
                     else {
                             throw new Exception ("Email and password do not match");
-                           
                     }
         }
-    
 
 
 

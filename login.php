@@ -1,5 +1,9 @@
 <?php 
 
+session_start();
+if ( isset($_SESSION['email'])) {
+    header('Location: index.php');
+}
 include_once('library/classes/User.class.php');
 if (!empty($_POST)) {
     try{
@@ -7,7 +11,7 @@ if (!empty($_POST)) {
         $user->setEmail($_POST['email']);
         $user->setPassword($_POST['password']);
         if ($user->loginCheck()) {
-          header('Location: index.php');
+            $user->login();
         }
     }
     catch(Exception $e) {

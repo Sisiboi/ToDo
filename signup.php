@@ -1,5 +1,9 @@
 <?php
 
+session_start();
+if ( isset($_SESSION['email'])) {
+    header('Location: index.php');
+}
 include_once('library/helpers/Security.class.php');
 include_once('library/classes/User.class.php');
 
@@ -9,7 +13,6 @@ if (!empty($_POST)) {
         $security = new Security();
         $security->password = $_POST['password'];
         $security->passwordRepeat = $_POST['password_repeat'];
-       
         
         if ($security->passwordsCheck()) {
             $user = new User();
@@ -18,9 +21,9 @@ if (!empty($_POST)) {
             $user->setLastName($_POST['last_name']);
             $user->setEmail($_POST['email']);
             $user->setPassword($_POST['password']);
-             $user->register();
-               
-            
+            if( $user->register() ){
+                $user->login();
+            }
         }
     }
     catch (Exception $e){
