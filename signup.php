@@ -52,7 +52,12 @@ if (!empty($_POST)) {
           
         <form action="" method="post" >
  
-  
+        <?php if(isset($e)): ?>
+        <div class="alert alert-dismissible alert-danger">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Oh snap!</strong> <a href="#" class="alert-link"><?php echo $e->getMessage(); ?></a>, change and try submitting again.
+</div>
+                <?php endif; ?>
   <div class="form-group ">
       <label for="username">Username</label>
       <input type="text" id="username" name="username" placeholder="Username" class="form-control" >

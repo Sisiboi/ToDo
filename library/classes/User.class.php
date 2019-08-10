@@ -132,7 +132,7 @@ class User{
     public function register(){
         //connectie 
         $conn = Db::getInstance();
-        //$conn = new PDO("mysql:host=localhost;dbname=focal","root", "");
+        //$conn = new PDO("mysql:host=localhost;dbname=todo","root", "");
         $mailCheck = $conn->prepare('select email from users where email = :email');
         $mailCheck->bindParam(":email", $this->email);
         $mailCheck->execute();
@@ -165,7 +165,7 @@ class User{
 
        public function login(){
         $conn = Db::getInstance();
-        $statement = $conn->prepare('select id from users where email = :email && deleted=0');
+        $statement = $conn->prepare('select id from users where email = :email');
         $statement->bindParam(":email", $this->email);
         $statement->execute();
         $currentUserID = $statement->fetch(PDO::FETCH_ASSOC);
@@ -202,6 +202,26 @@ class User{
                     else {
                             throw new Exception ("Email and password do not match");
                     }
+        }
+
+
+
+
+        public function cookieCheck($hash) {
+                $conn = Db::getInstance();
+                $statement = $conn->prepare("SELECT users.id, users.email FROM cookies INNER JOIN users ON users.id = cookies.user_id WHERE cookie = :hash");
+                $statement->bindValue(':hash', $hash);
+                $statement->execute();
+                $result = $statement->fetch(PDO::FETCH_ASSOC);
+                $_SESSION['email'] = $result['email'];
+                $_SESSION['user_id'] = $result['id'];
+        }
+
+        public function removeCookie($hash) {
+                $conn = Db::getInstance();
+                $statement = $conn->prepare("DELETE FROM cookies WHERE cookie = :hash");
+                $statement->bindValue(':hash', $hash);
+                $statement->execute();
         }
 
 

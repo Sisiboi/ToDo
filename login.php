@@ -19,6 +19,7 @@ if (!empty($_POST)) {
     }
 }
 
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,9 +37,14 @@ if (!empty($_POST)) {
     <div class="row">
         <div class="col-md-12">
           
-        <form>
+       <form action="" method="post" >
   <fieldset>
-  
+  <?php if(isset($e)): ?>
+        <div class="alert alert-dismissible alert-danger">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Oh snap!</strong> <a href="#" class="alert-link"><?php echo $e->getMessage(); ?></a>, suck a dick.
+</div>
+                <?php endif; ?>
 
     <div class="form-group ">
       <label for="exampleInputEmail1">Email address</label>
