@@ -33,7 +33,7 @@ class Lists{
 
 
 
-    public function postLists($userId){
+    public function createLists($userId){
         //connectie 
         $conn = Db::getInstance();
        
@@ -48,6 +48,16 @@ class Lists{
             // execute
         $result = $statement->execute();
         return $result;
+    }
+
+
+    public static function loadLists($currentUserID) {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT list.id,  list.title FROM list WHERE list.users_id = :currentUser");
+        $statement->bindValue(':currentUser', $currentUserID, PDO::PARAM_INT);
+        
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }

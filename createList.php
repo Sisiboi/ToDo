@@ -8,8 +8,8 @@ if (!empty($_POST)) {
       $upload = new Lists();
      
       $upload->setTitle($_POST['title']);
-      $upload->postLists($_SESSION['user_id']);
-   
+      $upload->createLists($_SESSION['user_id']);
+      header('Location: index.php?upload=complete');
   }
   catch (Exception $e){
 
