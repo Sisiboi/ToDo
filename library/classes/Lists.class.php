@@ -50,14 +50,23 @@ class Lists{
         return $result;
     }
 
-
+//dit werkt
     public static function loadLists($currentUserID) {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT list.id,  list.title FROM list WHERE list.users_id = :currentUser");
+        $statement = $conn->prepare("SELECT list.id,  list.title FROM list WHERE list.users_id = :currentUser && list.deleted != 1");
         $statement->bindValue(':currentUser', $currentUserID, PDO::PARAM_INT);
         
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function deleteList($listsId){
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("UPDATE list SET deleted = 1 WHERE id = :list_id"); 
+        $statement->bindParam(":list_id", $listsId);
+            // execute
+        $result = $statement->execute();
+        return $result;
     }
 
 }

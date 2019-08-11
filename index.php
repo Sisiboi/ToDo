@@ -6,8 +6,8 @@ include_once('library/classes/Lists.class.php');
 
 
 $page = Lists::loadLists($_SESSION['user_id']);
-var_dump($page);
-        
+
+
 
 
 
@@ -31,6 +31,6 @@ var_dump($page);
     <?php else: ?>
        <h1>nog niks maat</h1>
     <?php endif; ?>
-    
+    <script src="public_html/js/list.js"></script>
 </body>
 </html>
