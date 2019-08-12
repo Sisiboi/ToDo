@@ -12,9 +12,9 @@ if (!empty($_POST)) {
       
       
      
-     
-      $upload->postTask($_SESSION['user_id']);
     
+      $upload->postTask($_SESSION['user_id'], $_GET['list']);
+      header('Location: task.php?list='.$_GET['list']);
   }
   catch (Exception $e){
 
@@ -36,7 +36,7 @@ if (!empty($_POST)) {
 
 </head>
 <body>
-
+<body><?php include_once("nav.inc.php"); ?>
 <div class="container form">
 <h1>Task</h1>
 <div class="row">

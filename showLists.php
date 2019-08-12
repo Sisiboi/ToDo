@@ -2,7 +2,7 @@
 <?php foreach ($page as $p):?>
 
 <div class="card text-white bg-primary mb-3 main" style="width:33.3%">
-    <a href="">
+<a href="task.php?list=<?php echo  $p['id'] ?>">
         <div class="card-body">
             <h4 class="text-white">
                 <?php echo htmlspecialchars($p['title']); ?>

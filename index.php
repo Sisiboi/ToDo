@@ -20,11 +20,11 @@ $page = Lists::loadLists($_SESSION['user_id']);
     <?php include_once('header.inc.php'); ?>
     <title>To Do App</title>
 </head>
-<body>
-    <h1>homepage</h1>
-
-    <h1>Welcome</h1><a href="createList.php"><button type="button"  class="btn btn-primary btn-lg btn-block">Add new list +</button></a>
-    <a class="btn btn-danger" href="logout.php">Log out</button></a>
+<body> <?php include_once("nav.inc.php"); ?>
+  
+<button type="button" class="btn btn-outline-primary">Primary</button>
+    <a href="createList.php"><button type="button"  class="btn btn-primary btn-lg btn-block">Add new list +</button></a>
+    
     <?php if(isset($page)): ?>  
     <?php include_once('showLists.php'); ?>
           
@@ -32,5 +32,6 @@ $page = Lists::loadLists($_SESSION['user_id']);
        <h1>nog niks maat</h1>
     <?php endif; ?>
     <script src="public_html/js/list.js"></script>
+ 
 </body>
 </html>

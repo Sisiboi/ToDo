@@ -37,7 +37,7 @@ class Lists{
         //connectie 
         $conn = Db::getInstance();
        
-        $statement = $conn->prepare("insert into list (title, users_id) values (:title, :users_id)");
+        $statement = $conn->prepare("INSERT INTO list (title, users_id) values (:title, :users_id)");
 
 
         $statement->bindParam(":title", $this->title);

@@ -76,15 +76,16 @@ class Task{
 
 
 
-    public function postTask($userId){
+    public function postTask($userId, $listId){
         //connectie 
         $conn = Db::getInstance();
        
-        $statement = $conn->prepare("insert into task (description, users_id, workhours, deadline) values (:description, :users_id, :workhours, :deadline)");
+        $statement = $conn->prepare("insert into task (description, users_id, workhours, deadline, lists_id) values (:description, :users_id, :workhours, :deadline, :lists_id)");
 
 
         $statement->bindParam(":description", $this->description);
         $statement->bindParam(":users_id", $userId);
+        $statement->bindParam(":lists_id", $listId);
         $statement->bindParam(":workhours", $this->workhours);
         $statement->bindParam(":deadline", $this->deadline);
         
@@ -95,6 +96,32 @@ class Task{
         $result = $statement->execute();
         return $result;
     }
+
+
+
+    public static function loadTasks($currentUserID , $listID) {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT task.id,  task.description, task.workhours, task.deadline FROM task WHERE task.users_id = :currentUser && task.lists_id = :listID");
+        $statement->bindValue(':currentUser', $currentUserID, PDO::PARAM_INT);
+        $statement->bindValue(':listID', $listID, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+   
+    public static function addComment($comment, $usersID, $tasksID){
+        //
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("insert into comments (`comment`,`users_id`,`tasks_id`) values (:comment, :users_id, :tasks_id)");
+        $statement->bindParam(":comment", $comment);
+        $statement->bindParam(":users_id", $usersID);
+        $statement->bindParam(":tasks_id", $tasksID);
+            // execute
+            $result = $statement->execute();
+            return $result;
+    }
+
+
 
 
 

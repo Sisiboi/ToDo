@@ -31,8 +31,9 @@ if (!empty($_POST)) {
     <?php include_once('header.inc.php'); ?>
     <title>Document</title>
 </head>
-<body>
+<body><?php include_once("nav.inc.php"); ?>
 <div class="container form">
+
    <h1>New list</h1>
    
     <div class="row">
