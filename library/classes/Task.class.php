@@ -109,16 +109,28 @@ class Task{
     }
 
    
-    public static function addComment($comment, $usersID, $tasksID){
+    public static function addComment($comment, $usersId, $tasksId){
         //
         $conn = Db::getInstance();
-        $statement = $conn->prepare("insert into comments (`comment`,`users_id`,`tasks_id`) values (:comment, :users_id, :tasks_id)");
+        $statement = $conn->prepare("INSERT INTO comments (`comment`,`users_id`,`tasks_id`) VALUES (:comment, :users_id, :tasks_id)");
         $statement->bindParam(":comment", $comment);
-        $statement->bindParam(":users_id", $usersID);
-        $statement->bindParam(":tasks_id", $tasksID);
+        $statement->bindParam(":users_id", $usersId);
+        $statement->bindParam(":tasks_id", $tasksId);
             // execute
-            $result = $statement->execute();
-            return $result;
+        $statement->execute();
+        $username = $conn->prepare("SELECT username FROM users WHERE id = :users_id");
+        $username->bindParam(":users_id", $usersId);
+        $username->execute();
+        return $username->fetch();
+    }
+
+
+    public static function loadComments($commentID) {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT users.username, users.id, comments.comment FROM comments INNER JOIN users ON comments.users_id = users.id WHERE comments.tasks_id = :comment ");
+        $statement->bindValue(':comment', $commentID, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
