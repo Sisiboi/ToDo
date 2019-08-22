@@ -25,14 +25,18 @@
 
 
             <th scope="row">
-                <?php echo  $t['description'];   ?>
+                <?php echo htmlspecialchars ($t['description']);   ?>
             </th>
-            <td>
-                <?php if( $t['deadline'] == 0 ){ echo "no date given";} else{echo date("d-m-Y", strtotime($t['deadline']));
+            <td class="deadline">
+                <?php if( $t['deadline'] == 0 ){ echo "no date given";}
                 
-                
-                
-                }   ?>
+                else{echo date("d-m-Y", strtotime($t['deadline']));
+                     $days = Task::timeRemain($t['deadline']);
+                   
+                     echo "<br> <p class=text-primary>". $days->format('%a days till deadline')."</p>";
+                };
+             ?>
+              
               
              
             </td>

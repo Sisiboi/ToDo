@@ -48,7 +48,7 @@ function markTask(event){
                  
                   if(mark == 1){
                       $(this).html('mark as todo');
-                      
+                      $(this).parent().hasClass('deadline').fadeOut();
                       
                   } else {
                       $(this).html('mark as done');
