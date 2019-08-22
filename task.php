@@ -46,6 +46,6 @@ $tasks = Task::loadTasks($_SESSION['user_id'], $listID);
 
 <script src="public_html/js/list.js"></script>
 <script src="public_html/js/task.js"></script>
-
+<script src="public_html/js/style.js"></script>
 </body>
 </html>

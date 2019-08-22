@@ -1,5 +1,5 @@
 <?php include_once('library/classes/User.class.php'); ?>
-
+<?php include_once('library/classes/Task.class.php'); ?>
 
 
 
@@ -20,7 +20,7 @@
         
         
 
-        <tr <?php if($t['mark'] == 1) {echo 'class="table-active"';} else {echo 'class="table-primary"';}  ?>>
+        <tr <?php if($t['mark'] == 1) {echo 'class="table-active"';} else {echo 'class="table-default"';}  ?>>
 
 
 
@@ -28,7 +28,13 @@
                 <?php echo  $t['description'];   ?>
             </th>
             <td>
-                <?php echo  date("d-m-Y", strtotime($t['deadline']));   ?>
+                <?php if( $t['deadline'] == 0 ){ echo "no date given";} else{echo date("d-m-Y", strtotime($t['deadline']));
+                
+                
+                
+                }   ?>
+              
+             
             </td>
             <td>
                 <?php echo $t['workhours'];   ?>
@@ -36,7 +42,10 @@
             <td>
                 <button type="button"  data-taskid="<?php echo $t['id'];?>" <?php if(  $t['mark'] == 1 ){echo 'class="btn mark btn-danger"';} else {echo  'class=" btn mark btn-success"';}?>  data-post="<?php echo  $t['id']; ?>"><?php if(  $t['mark'] == 1 ){echo 'mark as todo';} else {echo 'mark as done';}; ?></button>
             </td>
-            <td><div class="card-body loadcomment">
+
+
+            
+            <td><div class="loadcomment">
                 <?php 
                
                                 $comments = Task::loadComments($t['id']);
@@ -59,7 +68,7 @@
 
                 <label for="exampleTextarea">Add comment</label>
                 <textarea class="form-control add-comment-area" data-post="<?php echo  $t['id'];  ?> " data-post="<?php echo  $t['id'];  ?> "
-                    rows="3" placeholder="Add a comment..." style="margin-top: 0px; margin-bottom: 0px; height: 58px;"></textarea>
+                    rows="1" placeholder="Add a comment..." style="margin-top: 0px; margin-bottom: 0px; "></textarea>
             </div>
             </td>
         </tr>

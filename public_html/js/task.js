@@ -44,11 +44,11 @@ function markTask(event){
 
 
                 $(this).toggleClass('btn-danger btn-success');
-                  $(this).parent().parent().toggleClass('table-active table-primary');
+                  $(this).parent().parent().toggleClass('table-active table-default');
                  
                   if(mark == 1){
                       $(this).html('mark as todo');
-                   
+                      
                       
                   } else {
                       $(this).html('mark as done');
@@ -64,3 +64,6 @@ function markTask(event){
 
         }
         $('.mark').on('click', markTask);
+
+
+    

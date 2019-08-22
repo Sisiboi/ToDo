@@ -74,7 +74,7 @@ if (!empty($_POST)) {
 </div> 
 </div> 
 </div> 
-
+<script src="public_html/js/style.js"></script>
 
 </body>
 </html>

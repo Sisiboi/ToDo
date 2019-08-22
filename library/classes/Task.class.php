@@ -71,13 +71,13 @@ class Task{
       $currentTime =new DateTime();
       
       $currentTime->format('Y-m-d');
-      $null = 0;
+   
       
       
        
-         if( $currentTime->format('Y-m-d') > $deadline ){
+         if( ($currentTime->format('Y-m-d') > $deadline) && ($deadline != 0) ){
             
-            throw new Exception ($deadline);
+            throw new Exception ('date has to be later than today'); 
           
         }    
 
@@ -167,6 +167,15 @@ class Task{
         $statement->bindParam(":mark", $mark, PDO::PARAM_INT);
         $statement->execute();
         
+        }
+
+
+        public function timeRemain($deadline){
+      
+       $expireDate = new DateTime($deadline);
+        $currentTime = new DateTime();
+      $result= $currentTime->diff($expireDate);
+      return $result;
         }
     
 
