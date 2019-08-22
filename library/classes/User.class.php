@@ -165,7 +165,7 @@ class User{
 
        public function login(){
         $conn = Db::getInstance();
-        $statement = $conn->prepare('select id from users where email = :email');
+        $statement = $conn->prepare('select id from users where email = :email && deleted=0');
         $statement->bindParam(":email", $this->email);
         $statement->execute();
         $currentUserID = $statement->fetch(PDO::FETCH_ASSOC);
@@ -202,12 +202,7 @@ class User{
                     else {
                             throw new Exception ("Email and password do not match");
                     }
-        }
-
-
-
-
-        public function cookieCheck($hash) {
+        }   public function cookieCheck($hash) {
                 $conn = Db::getInstance();
                 $statement = $conn->prepare("SELECT users.id, users.email FROM cookies INNER JOIN users ON users.id = cookies.user_id WHERE cookie = :hash");
                 $statement->bindValue(':hash', $hash);
@@ -221,6 +216,46 @@ class User{
                 $conn = Db::getInstance();
                 $statement = $conn->prepare("DELETE FROM cookies WHERE cookie = :hash");
                 $statement->bindValue(':hash', $hash);
+                $statement->execute();
+        }
+
+
+
+
+         public static function getAllUsers(){
+                $conn = Db::getInstance();
+                $statement = $conn->prepare("SELECT * FROM users");
+                $statement->execute();
+                $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                return $result;
+        }
+
+
+        public static function updateRole($user, $isAdmin){
+                $conn = Db::getInstance();
+                $statement = $conn->prepare("UPDATE users SET isAdmin = :isAdmin WHERE id=:user");
+                $statement->bindParam(":user", $user, PDO::PARAM_INT);
+                $statement->bindParam(":isAdmin", $isAdmin, PDO::PARAM_INT);
+                $statement->execute();
+        }
+
+        public static function getUserRole($currentUser){
+                $conn = Db::getInstance();
+                $statement = $conn->prepare("SELECT isAdmin FROM users WHERE id = :currentUser");
+                $statement->bindParam(":currentUser", $currentUser);
+                $statement->execute();
+                $result = $statement->fetch(PDO::FETCH_ASSOC);
+                return $result;
+        }
+      
+
+       
+
+        public static function deleteAccount($user, $del){
+                $conn = Db::getInstance();
+                $statement = $conn->prepare("UPDATE users SET deleted=:del WHERE id=:user");
+                $statement->bindParam(":user", $user, PDO::PARAM_INT);
+                $statement->bindParam(":del", $del, PDO::PARAM_INT);
                 $statement->execute();
         }
 

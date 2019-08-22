@@ -4,7 +4,7 @@ include_once('library/classes/Task.class.php');
 
 
 $listID = $_GET['list'];
-$page = Task::loadTasks($_SESSION['user_id'], $listID);
+$tasks = Task::loadTasks($_SESSION['user_id'], $listID);
 
 
 
@@ -26,12 +26,15 @@ $page = Task::loadTasks($_SESSION['user_id'], $listID);
    
 
 <a href="createTask.php?list=<?php echo  $listID ?>"><button type="button"  class="btn btn-primary btn-lg btn-block">Add new task +</button></a>
-<h1>Overzicht taken</h1>
 
 
 
 
- <?php if(isset($page)): ?>  
+
+ <?php if(isset($tasks) ): ?>  
+
+
+ 
     <?php include_once('showTasks.php'); ?>
           
     <?php else: ?>

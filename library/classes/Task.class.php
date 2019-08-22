@@ -45,9 +45,12 @@ class Task{
      */ 
     public function setWorkhours($workhours)
     {
-        if (empty($workhours)){
-            throw new Exception ("Please add workhours");
+       
+        if ($workhours <= 0 || $workhours >= 51 ){
+            throw new Exception ("Please add workhours betweens 1 and 50");
+          
         }
+     
         $this->workhours = $workhours;
 
         return $this;
@@ -65,8 +68,20 @@ class Task{
      */ 
     public function setDeadline($deadline)
     {
+      $currentTime =new DateTime();
       
-        $this->deadline = $deadline;
+      $currentTime->format('Y-m-d');
+      $null = 0;
+      
+      
+       
+         if( $currentTime->format('Y-m-d') > $deadline ){
+            
+            throw new Exception ($deadline);
+          
+        }    
+
+        $this->deadline =  $deadline;
 
         return $this;
     }
@@ -101,7 +116,7 @@ class Task{
 
     public static function loadTasks($currentUserID , $listID) {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT task.id,  task.description, task.workhours, task.deadline FROM task WHERE task.users_id = :currentUser && task.lists_id = :listID");
+        $statement = $conn->prepare("SELECT task.id,  task.description, task.workhours, task.deadline, task.mark FROM task WHERE task.users_id = :currentUser && task.lists_id = :listID ORDER BY task.deadline ASC");
         $statement->bindValue(':currentUser', $currentUserID, PDO::PARAM_INT);
         $statement->bindValue(':listID', $listID, PDO::PARAM_INT);
         $statement->execute();
@@ -125,14 +140,35 @@ class Task{
     }
 
 
-    public static function loadComments($commentID) {
+    public static function loadComments($commentId) {
         $conn = Db::getInstance();
         $statement = $conn->prepare("SELECT users.username, users.id, comments.comment FROM comments INNER JOIN users ON comments.users_id = users.id WHERE comments.tasks_id = :comment ");
-        $statement->bindValue(':comment', $commentID, PDO::PARAM_INT);
+        $statement->bindValue(':comment', $commentId, PDO::PARAM_INT);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
+    public static function getMark($tasksId){
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT mark FROM task WHERE id = :tasks_id");
+        $statement->bindParam(":tasks_id", $tasksId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result;
+}
+
+
+
+    public static function setMark($tasksId, $mark){
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("UPDATE task SET mark=:mark WHERE id=:tasks_id ");
+        $statement->bindParam(":tasks_id", $tasksId, PDO::PARAM_INT);
+        $statement->bindParam(":mark", $mark, PDO::PARAM_INT);
+        $statement->execute();
+        
+        }
+    
 
 
 

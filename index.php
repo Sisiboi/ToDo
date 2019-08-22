@@ -22,7 +22,7 @@ $page = Lists::loadLists($_SESSION['user_id']);
 </head>
 <body> <?php include_once("nav.inc.php"); ?>
   
-<button type="button" class="btn btn-outline-primary">Primary</button>
+
     <a href="createList.php"><button type="button"  class="btn btn-primary btn-lg btn-block">Add new list +</button></a>
     
     <?php if(isset($page)): ?>  

@@ -1,31 +1,45 @@
 <?php include_once('library/classes/User.class.php'); ?>
-<?php foreach ($page as $p):?>
-
-
-<div class="card border-secondary mb-3" style="width:33.3%; float:left; ">
-    <div class="card-container  bg-primary" style="margin: 10%;border-radius:8px;">
-       
-
-        <div class="card-body text-white">
-            <h4 class="card-title">
-                <?php echo  $p['description'];   ?>
-            </h4>
-        </div> <div class="card-footer text-white bg-dark">
-            Deadline:
-            <?php echo  $p['deadline'];   ?>
-            <br> Work hours:
-            <?php echo  $p['workhours'];   ?>
 
 
 
-        </div>
-        <div class="card border-primary">
+
+<table class="table table-hover">
+
+    <tbody>
+    
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Deadline</th>
+                <th scope="col">Workhours</th>
+                <th scope="col">Action</th>
+                <th scope="col">Comments</th>
+            </tr>
+        </thead>
+        <?php foreach ($tasks as $t):?>
+        
+        
+
+        <tr <?php if($t['mark'] == 1) {echo 'class="table-active"';} else {echo 'class="table-primary"';}  ?>>
 
 
-            <div class="card-body loadcomment">
+
+            <th scope="row">
+                <?php echo  $t['description'];   ?>
+            </th>
+            <td>
+                <?php echo  date("d-m-Y", strtotime($t['deadline']));   ?>
+            </td>
+            <td>
+                <?php echo $t['workhours'];   ?>
+            </td>
+            <td>
+                <button type="button"  data-taskid="<?php echo $t['id'];?>" <?php if(  $t['mark'] == 1 ){echo 'class="btn mark btn-danger"';} else {echo  'class=" btn mark btn-success"';}?>  data-post="<?php echo  $t['id']; ?>"><?php if(  $t['mark'] == 1 ){echo 'mark as todo';} else {echo 'mark as done';}; ?></button>
+            </td>
+            <td><div class="card-body loadcomment">
                 <?php 
                
-                                $comments = Task::loadComments($p['id']);
+                                $comments = Task::loadComments($t['id']);
                             
                                 foreach ($comments as $c) {
                                     echo "<div class='card-text comment'>";
@@ -44,20 +58,25 @@
 
 
                 <label for="exampleTextarea">Add comment</label>
-                <textarea class="form-control add-comment-area" data-post="<?php echo  $p['id'];  ?> " data-post="<?php echo  $p['id'];  ?> " 
+                <textarea class="form-control add-comment-area" data-post="<?php echo  $t['id'];  ?> " data-post="<?php echo  $t['id'];  ?> "
                     rows="3" placeholder="Add a comment..." style="margin-top: 0px; margin-bottom: 0px; height: 58px;"></textarea>
             </div>
-
-        </div>
-
-
+            </td>
+        </tr>
 
 
 
 
-    </div>
-</div>
 
-   
 
-<?php endforeach ?>
+
+
+
+
+
+
+
+
+
+<?php endforeach ?>    </tbody>
+</table>

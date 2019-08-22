@@ -23,3 +23,44 @@ $('.add-comment-area').keypress(function(e) {
     e.preventDefault();
         }
 });
+
+
+function markTask(event){
+       
+        var taskid = $(this).data(taskid)['taskid'];
+        var mark = 1;
+        if($(this).parent().parent().hasClass('table-active')){
+                mark = 0;
+            }
+
+                 console.log(mark);
+        $.ajax({
+                url: "markTask.php",
+                context: this,
+                method: "POST",
+                data: { taskid: taskid, mark: mark }
+                }).done(function() {
+
+
+
+                $(this).toggleClass('btn-danger btn-success');
+                  $(this).parent().parent().toggleClass('table-active table-primary');
+                 
+                  if(mark == 1){
+                      $(this).html('mark as todo');
+                   
+                      
+                  } else {
+                      $(this).html('mark as done');
+                  }
+                       
+                       
+                        
+                       
+                        
+            });
+            event.preventDefault();
+
+
+        }
+        $('.mark').on('click', markTask);
